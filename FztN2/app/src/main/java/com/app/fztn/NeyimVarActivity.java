@@ -82,7 +82,7 @@ public class NeyimVarActivity extends AppCompatActivity {
         long result = dbAdapter.insertAgrilar(userId, agriBolgesi, agriDerece, agriSekli, agriSuresi);
         if (result != -1) {
             // Başarıyla eklendi
-            Toast.makeText(this, "Bilgiler başarıyla eklendi", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, "Bilgiler başarıyla eklendi", Toast.LENGTH_SHORT).show();
         } else {
             // Hata oluştu
             Toast.makeText(this, "Bilgiler eklenirken bir hata oluştu", Toast.LENGTH_SHORT).show();
