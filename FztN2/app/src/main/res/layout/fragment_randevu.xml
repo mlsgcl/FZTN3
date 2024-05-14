@@ -1,86 +1,148 @@
-<!-- res/layout/fragment_randevu.xml -->
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".RandevuFragment"
-    android:background="#FAF7F7"
-    >
+    tools:context=".MainActivity">
 
-
-
-    <androidx.appcompat.widget.Toolbar
-
-        android:id="@+id/toolBar"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="@color/colorAccent"
-        app:title="FztN"
-        android:textAlignment="textEnd"
-        app:titleTextColor="@color/white"
-        android:gravity="end"
-        tools:ignore="InvalidId" />
-
-    <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:fitsSystemWindows="true">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
-
-
-        <DatePicker
-            android:id="@+id/datePicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:theme="@style/DatePickerTheme" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <NumberPicker
-                android:layout_marginTop="20dp"
-                android:id="@+id/hourPicker"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_marginEnd="4dp"
-                android:background="@android:color/transparent"
-                android:layout_gravity="center"
-                android:clipToPadding="false"/>
-
-            <NumberPicker
-                android:layout_marginTop="20dp"
-                android:id="@+id/minutePicker"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_marginStart="4dp"
-                android:background="@android:color/transparent"
-                android:layout_gravity="center"
-                android:clipToPadding="false"/>
-
-        </LinearLayout>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp">
         <Button
-            android:id="@+id/buttonRandevuAl"
-            android:layout_width="200dp"
+            android:id="@+id/previous_button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/input_btn"
-            android:text="Randevu Al" />
+            android:layout_weight="1"
+            android:text="geri"
+            android:textColor="@color/colorAccent"
+            android:background="@null"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/monthYearTV"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:text="Feb 2021"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:textColor="@color/black"/>
+
+        <Button
+            android:id="@+id/previous_button2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ileri"
+            android:textColor="@color/colorAccent"
+            android:background="@null"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
 
     </LinearLayout>
-</ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="PAZAR"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:textAlignment="center"
+            android:textSize="11sp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="PAZARTESİ"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:textAlignment="center"
+            android:textSize="11sp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SALI"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:textAlignment="center"
+            android:textSize="11sp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ÇARŞ"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:textAlignment="center"
+            android:textSize="11sp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="PERŞEMBE"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:textAlignment="center"
+            android:textSize="11sp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="CUMA"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textSize="11sp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="CUMARTESİ"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:textAlignment="center"
+            android:textSize="10sp"/>
+
+
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/calendarRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
 
