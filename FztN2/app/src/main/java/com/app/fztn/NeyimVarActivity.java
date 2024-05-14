@@ -1,6 +1,8 @@
 package com.app.fztn;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -32,7 +34,7 @@ public class NeyimVarActivity extends AppCompatActivity {
 
             }
         };
-        //dbAdapter.open();
+        dbAdapter.open();
 
         // Spinner bileşenlerini tanımlayın ve değer ataması yapın
         spinnerAgrıBolgesi = findViewById(R.id.spinnerAgrıBolgesi);
@@ -41,12 +43,6 @@ public class NeyimVarActivity extends AppCompatActivity {
         spinnerAgrıSüresi = findViewById(R.id.spinnerAgrıSüresi);
 
         Button myButton = findViewById(R.id.buttonSave);
-
-
-
-
-
-
 
         // Button'a tıklama dinleyicisi ekleyin
         myButton.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +78,20 @@ public class NeyimVarActivity extends AppCompatActivity {
         long result = dbAdapter.insertAgrilar(userId, agriBolgesi, agriDerece, agriSekli, agriSuresi);
         if (result != -1) {
             // Başarıyla eklendi
-           // Toast.makeText(this, "Bilgiler başarıyla eklendi", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Bilgiler başarıyla eklendi", Toast.LENGTH_SHORT).show();
+
+            if (agriBolgesi.equals("Omuz") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equals("Batıcı") && agriSuresi.equals("Kronik")) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://youtube.com/shorts/hTfMSrMHtq8?si=sC9sHPgvhwomPJMy"));
+                startActivity(browserIntent);
+            } else if (
+                    (agriBolgesi.equals("Baş") || agriBolgesi.equals("Boyun"))
+                            &&  Integer.parseInt(agriDerece) >= 5
+                            && agriSekli.equals("Batıcı")
+                            && agriSuresi.equals("Kronik")
+            ) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://youtube.com/shorts/vMvPXYiXvFU?si=VmysZEZNGZQCvwjG"));
+                startActivity(browserIntent);
+            }
         } else {
             // Hata oluştu
             Toast.makeText(this, "Bilgiler eklenirken bir hata oluştu", Toast.LENGTH_SHORT).show();

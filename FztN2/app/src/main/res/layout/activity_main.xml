@@ -14,7 +14,7 @@
         android:background="@drawable/input_btn"
         android:drawableLeft="@drawable/account"
         android:ems="10"
-        android:text="gmelisa@gmail.com"
+        android:text="gmelisaguclu@gmail.com"
         android:inputType="text"
         android:minHeight="48dp"
         android:padding="10dp"
