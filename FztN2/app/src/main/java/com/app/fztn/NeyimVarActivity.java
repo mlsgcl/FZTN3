@@ -83,51 +83,22 @@ public class NeyimVarActivity extends AppCompatActivity {
             // Başarıyla eklendi
             Toast.makeText(this, "Bilgiler başarıyla eklendi", Toast.LENGTH_SHORT).show();
 
-            if (agriBolgesi.equals("Omuz") && semptomlar.equals("uyuşma") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equals("Batıcı") && agriSuresi.equals("Kronik")) {
+            if (agriBolgesi.equals("Omuz") && semptomlar.equals("uyuşma") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("Batıcı") && agriSuresi.equals("Kronik")) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://youtube.com/shorts/hTfMSrMHtq8?si=sC9sHPgvhwomPJMy"));
                 startActivity(browserIntent);
-            } else if
-                    (agriBolgesi.equals("Baş") || agriBolgesi.equals("Boyun")
-                            && semptomlar.equals("güçsüzlük")
-                            &&  Integer.parseInt(agriDerece) >= 5
-                            && agriSekli.equals("iğneleyici")
-                            && agriSuresi.equals("Kronik"))
-            {
+            } else if ((agriBolgesi.equals("Baş") || agriBolgesi.equals("Boyun")) && semptomlar.equals("güçsüzlük") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("iğneleyici") && agriSuresi.equals("Kronik")) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://youtube.com/shorts/vMvPXYiXvFU?si=VmysZEZNGZQCvwjG"));
                 startActivity(browserIntent);
-            }
-            else if
-                    (agriBolgesi.equals("Bel")
-                            && semptomlar.equals("güçsüzlük")
-                            &&  Integer.parseInt(agriDerece) >= 5
-                            && agriSekli.equals("Batıcı")
-                            && agriSuresi.equals("Kronik"))
-             {
+            } else if (agriBolgesi.equals("Bel") && semptomlar.equals("güçsüzlük") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("Batıcı") && agriSuresi.equals("Kronik")) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/shorts/RgyrfYbYvxY"));
                 startActivity(browserIntent);
-            }
-            else if
-                    (agriBolgesi.equals("Bacak")
-                            && semptomlar.equals("uyuşma")
-                            &&  Integer.parseInt(agriDerece) >= 5
-                            && agriSekli.equals("yanıcı")
-                            && agriSuresi.equals("Kronik")
-            ) {
+            } else if (agriBolgesi.equals("Bacak") && semptomlar.equals("uyuşma") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("yanıcı") && agriSuresi.equals("Kronik")) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/shorts/v7pZO4VpzJU"));
                 startActivity(browserIntent);
-            }
-
-            else if
-                    (agriBolgesi.equals("el")
-                            && semptomlar.equals("uyuşma")
-                            &&  Integer.parseInt(agriDerece) >= 5
-                            && agriSekli.equals("batıcı") // Buradaki "batıcı" olmalı
-                            && agriSuresi.equals("Kronik")
-            ) {
+            } else if (agriBolgesi.equals("El") && semptomlar.equals("uyuşma") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("batıcı") && agriSuresi.equals("Kronik")) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/shorts/cyDYR05Rw3A"));
                 startActivity(browserIntent);
             }
-
         } else {
             // Hata oluştu
             Toast.makeText(this, "Bilgiler eklenirken bir hata oluştu", Toast.LENGTH_SHORT).show();
