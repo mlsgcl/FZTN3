@@ -377,7 +377,7 @@ public abstract class DbAdapter extends SQLiteOpenHelper {
     }
 
     // DbAdapter sınıfına eklenen metot
-    public long insertAgrilar(String userId, String agriBolgesi, String agriDerece, String agriSekli, String agriSuresi) {
+    public long insertAgrilar(String userId, String agriBolgesi, String agriDerece, String agriSekli, String agriSuresi, String suresi) {
         ContentValues values = new ContentValues();
         values.put("user_id", userId); // Kullanıcı ID'sini ekleyin
         values.put("agri_bolgesi", agriBolgesi);
