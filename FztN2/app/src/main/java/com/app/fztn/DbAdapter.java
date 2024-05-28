@@ -143,6 +143,25 @@ public abstract class DbAdapter extends SQLiteOpenHelper {
         }
     }
 
+    public boolean isDateTimeOccupied(String selectedDate, String selectedTime) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+
+        try {
+            String query = "SELECT * FROM RANDEVU WHERE randevu_tarih = ? AND randevu_saat = ?";
+            cursor = db.rawQuery(query, new String[]{selectedDate, selectedTime});
+            return cursor.getCount() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+    }
+
 
 
     public boolean userExists(String userId) {

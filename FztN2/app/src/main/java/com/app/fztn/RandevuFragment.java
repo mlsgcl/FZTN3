@@ -129,43 +129,79 @@ public class RandevuFragment extends Fragment implements CalendarAdapter.OnItemL
     }
 
     private void showTimePickerDialog() {
-        Dialog dialog = new Dialog(getContext());
-        dialog.setContentView(R.layout.dialog);
 
-        TextView textViewTitle = dialog.findViewById(R.id.textViewTitle);
-        textViewTitle.setText(selectedDateString);
+            Dialog dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.dialog);
 
-        RecyclerView recyclerViewTimes = dialog.findViewById(R.id.recyclerViewTimes);
-        recyclerViewTimes.setLayoutManager(new GridLayoutManager(getContext(), 4));
+            TextView textViewTitle = dialog.findViewById(R.id.textViewTitle);
+            textViewTitle.setText(selectedDateString);
 
-        ArrayList<String> timeList = new ArrayList<>();
-        for (int hour = 9; hour <= 16; hour++) {
-            timeList.add(String.format("%02d:00", hour));
+            RecyclerView recyclerViewTimes = dialog.findViewById(R.id.recyclerViewTimes);
+            recyclerViewTimes.setLayoutManager(new GridLayoutManager(getContext(), 4));
+
+            ArrayList<String> timeList = new ArrayList<>();
+            for (int hour = 9; hour <= 16; hour++) {
+                timeList.add(String.format("%02d:00", hour));
+            }
+
+            TimeAdapter adapter = new TimeAdapter(timeList, time -> {
+                selectedTimeString = time;
+                Toast.makeText(getContext(), "Selected Time: " + time, Toast.LENGTH_SHORT).show();
+            });
+            recyclerViewTimes.setAdapter(adapter);
+
+            Button buttonConfirm = dialog.findViewById(R.id.buttonConfirm);
+            buttonConfirm.setOnClickListener(v -> {
+                if (selectedTimeString != null) {
+                    // Veritabanı kontrolü
+                    DbAdapter dbAdapter = new DbAdapter(getContext()) {
+                        @Override
+                        public void onCreate(SQLiteDatabase sqLiteDatabase) {
+
+                        }
+
+                        @Override
+                        public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+
+                        }
+                    };
+                    dbAdapter.open();
+                    if (dbAdapter.isDateTimeOccupied(selectedDateString, selectedTimeString)) {
+                        Toast.makeText(getContext(), "Bu saat ve tarihte zaten bir randevu var.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        saveAppointment(selectedDateString, selectedTimeString);
+                        dialog.dismiss();
+                    }
+                    dbAdapter.close();
+                } else {
+                    Toast.makeText(getContext(), "Lütfen bir saat seçiniz.", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            dialog.show();
         }
 
-        TimeAdapter adapter = new TimeAdapter(timeList, time -> {
-            selectedTimeString = time;
-            Toast.makeText(getContext(), "Seçilen Saat: " + time, Toast.LENGTH_SHORT).show();
-        });
-        recyclerViewTimes.setAdapter(adapter);
-
-        Button buttonConfirm = dialog.findViewById(R.id.buttonConfirm);
-        buttonConfirm.setOnClickListener(v -> {
-            if (selectedTimeString != null) {
-                saveAppointment(selectedDateString, selectedTimeString);
-                dialog.dismiss();
-            } else {
-                Toast.makeText(getContext(), "Lütfen bir saat seçiniz.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        dialog.show();
-    }
 
     private void saveAppointment(String date, String time) {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        // Randevuyu veritabanına kaydetme işlemleri...
+        DbAdapter dbAdapter = new DbAdapter(getContext()) {
+            @Override
+            public void onCreate(SQLiteDatabase sqLiteDatabase) {
+
+            }
+
+            @Override
+            public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+
+            }
+        };
+        dbAdapter.open();
         long result = dbAdapter.insertRandevu(userId, date, time);
+        dbAdapter.close();
+
+        // Kaydetme işleminin sonucuna göre kullanıcıya uygun bir mesaj gösterin
         if (result != -1) {
             Toast.makeText(getContext(), "Randevu başarıyla kaydedildi.", Toast.LENGTH_SHORT).show();
         } else {

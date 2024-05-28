@@ -9,33 +9,49 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
 
-public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.TimeViewHolder> {
-    private List<String> timeList;
-    private OnItemListener onItemListener;
+import java.util.ArrayList;
 
-    public interface OnItemListener {
-        void onItemClick(String time);
+public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.ViewHolder> {
+    private ArrayList<String> timeList;
+    private OnTimeClickListener onTimeClickListener;
+    private int selectedPosition = RecyclerView.NO_POSITION;
+
+    public interface OnTimeClickListener {
+        void onTimeClick(String time);
     }
 
-    public TimeAdapter(List<String> timeList, OnItemListener onItemListener) {
+    public TimeAdapter(ArrayList<String> timeList, OnTimeClickListener onTimeClickListener) {
         this.timeList = timeList;
-        this.onItemListener = onItemListener;
+        this.onTimeClickListener = onTimeClickListener;
     }
 
     @NonNull
     @Override
-    public TimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_time, parent, false);
-        return new TimeViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TimeViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String time = timeList.get(position);
-        holder.timeTextView.setText(time);
-        holder.itemView.setOnClickListener(v -> onItemListener.onItemClick(time));
+        holder.textViewTime.setText(time);
+
+        // Eğer pozisyon seçilmişse arka plan rengini değiştir
+        if (selectedPosition == position) {
+            holder.itemView.setBackgroundResource(R.drawable.selected_time_background);
+        } else {
+            holder.itemView.setBackgroundResource(R.drawable.default_time_background);
+        }
+
+        holder.itemView.setOnClickListener(v -> {
+            int previousSelectedPosition = selectedPosition;
+            selectedPosition = holder.getAdapterPosition();
+            notifyItemChanged(previousSelectedPosition);
+            notifyItemChanged(selectedPosition);
+            onTimeClickListener.onTimeClick(time);
+        });
     }
 
     @Override
@@ -43,12 +59,12 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.TimeViewHolder
         return timeList.size();
     }
 
-    public static class TimeViewHolder extends RecyclerView.ViewHolder {
-        TextView timeTextView;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView textViewTime;
 
-        public TimeViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            timeTextView = itemView.findViewById(R.id.textViewTime);
+            textViewTime = itemView.findViewById(R.id.textViewTime);
         }
     }
 }
