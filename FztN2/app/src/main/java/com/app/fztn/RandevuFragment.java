@@ -144,11 +144,23 @@ public class RandevuFragment extends Fragment implements CalendarAdapter.OnItemL
                 timeList.add(String.format("%02d:00", hour));
             }
 
-            TimeAdapter adapter = new TimeAdapter(timeList, time -> {
-                selectedTimeString = time;
-                Toast.makeText(getContext(), "Selected Time: " + time, Toast.LENGTH_SHORT).show();
-            });
-            recyclerViewTimes.setAdapter(adapter);
+        ArrayList<Boolean> isTimeOccupiedList = new ArrayList<>(); // Dolu saatlerin listesi
+        for (int hour = 9; hour <= 16; hour++) {
+            // Saatin dolu olup olmadığını kontrol edin ve listeye ekleyin
+            String timeString = String.format("%02d:00", hour);
+            isTimeOccupiedList.add(dbAdapter.isDateTimeOccupied(selectedDateString, timeString));
+        }
+
+        TimeAdapter adapter = new TimeAdapter(timeList, isTimeOccupiedList, time -> {
+            selectedTimeString = time;
+            //Toast.makeText(getContext(), "Selected Time: " + time, Toast.LENGTH_SHORT).show();
+        });
+
+      // RecyclerView için adapteri ayarla
+        recyclerViewTimes.setAdapter(adapter);
+
+
+        recyclerViewTimes.setAdapter(adapter);
 
             Button buttonConfirm = dialog.findViewById(R.id.buttonConfirm);
             buttonConfirm.setOnClickListener(v -> {

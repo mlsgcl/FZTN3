@@ -28,6 +28,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
         return new HourViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull HourViewHolder holder, int position) {
         String hour = hourList.get(position);
