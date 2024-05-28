@@ -1,5 +1,6 @@
 package com.app.fztn;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.ContentValues;
 import android.database.SQLException;
@@ -94,6 +95,19 @@ public abstract class DbAdapter extends SQLiteOpenHelper {
             onCreate(db);
         }
     }
+
+    @SuppressLint("Range")
+    public String getRecommendedVideoUrl(String userId) {
+        String url = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT video_url FROM ONERILEN_VIDEO WHERE user_id = ?", new String[]{userId});
+        if (cursor != null && cursor.moveToFirst()) {
+            url = cursor.getString(cursor.getColumnIndex("video_url"));
+            cursor.close();
+        }
+        return url;
+    }
+
 
     public DbAdapter open() throws SQLException {
         db = dbHelper.getWritableDatabase();
