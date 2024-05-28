@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -70,40 +71,49 @@ public class NeyimVarActivity extends AppCompatActivity {
     }
 
     private void kaydet() {
-        String userId = getFirebaseUserId();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String agriBolgesi = spinnerAgrıBolgesi.getSelectedItem().toString();
         String semptomlar = spinnerSemptomlar.getSelectedItem().toString();
         String agriDerece = spinnerAgrıDerece.getSelectedItem().toString();
         String agriSekli = spinnerAgrıSekli.getSelectedItem().toString();
         String agriSuresi = spinnerAgrıSüresi.getSelectedItem().toString();
-
-
         long result = dbAdapter.insertAgrilar(userId, agriBolgesi, semptomlar, agriDerece, agriSekli, agriSuresi);
+
+        // Önerilen video URL'sini belirleyin
+        String recommendedVideoUrl = "";
+
         if (result != -1) {
             // Başarıyla eklendi
             Toast.makeText(this, "Bilgiler başarıyla eklendi", Toast.LENGTH_SHORT).show();
 
+
+            // Kullanıcı seçimlerine bağlı olarak URL'yi belirleyin
             if (agriBolgesi.equals("Omuz") && semptomlar.equals("uyuşma") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("Batıcı") && agriSuresi.equals("Kronik")) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://youtube.com/shorts/hTfMSrMHtq8?si=sC9sHPgvhwomPJMy"));
-                startActivity(browserIntent);
+                recommendedVideoUrl = "https://youtube.com/shorts/hTfMSrMHtq8?si=sC9sHPgvhwomPJMy";
             } else if ((agriBolgesi.equals("Baş") || agriBolgesi.equals("Boyun")) && semptomlar.equals("güçsüzlük") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("iğneleyici") && agriSuresi.equals("Kronik")) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://youtube.com/shorts/vMvPXYiXvFU?si=VmysZEZNGZQCvwjG"));
-                startActivity(browserIntent);
+                recommendedVideoUrl = "https://youtube.com/shorts/vMvPXYiXvFU?si=VmysZEZNGZQCvwjG";
             } else if (agriBolgesi.equals("Bel") && semptomlar.equals("güçsüzlük") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("Batıcı") && agriSuresi.equals("Kronik")) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/shorts/RgyrfYbYvxY"));
-                startActivity(browserIntent);
+                recommendedVideoUrl = "https://www.youtube.com/shorts/RgyrfYbYvxY";
             } else if (agriBolgesi.equals("Bacak") && semptomlar.equals("uyuşma") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("yanıcı") && agriSuresi.equals("Kronik")) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/shorts/v7pZO4VpzJU"));
-                startActivity(browserIntent);
+                recommendedVideoUrl = "https://www.youtube.com/shorts/v7pZO4VpzJU";
             } else if (agriBolgesi.equals("El") && semptomlar.equals("uyuşma") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("batıcı") && agriSuresi.equals("Kronik")) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/shorts/cyDYR05Rw3A"));
-                startActivity(browserIntent);
+                recommendedVideoUrl = "https://www.youtube.com/shorts/cyDYR05Rw3A";
             }
+
+            Log.d("", "URL: " + recommendedVideoUrl);
+
+            }else {
+                // Hata oluştu
+            }
+
+        long result2 = dbAdapter.insertRecommendedVideo(userId, recommendedVideoUrl);
+        if (result2 != -1) {
+            Log.d("", "URL: " + recommendedVideoUrl + " başarıyla veritabanına kaydedildi.");
         } else {
-            // Hata oluştu
-            //Toast.makeText(this, "Bilgiler eklenirken bir hata oluştu", Toast.LENGTH_SHORT).show();
+            Log.d("", "URL: " + recommendedVideoUrl + " veritabanına kaydedilirken bir hata oluştu.");
         }
-    }
+        }
+
 
     @Override
     protected void onDestroy() {

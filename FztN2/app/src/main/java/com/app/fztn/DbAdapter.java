@@ -10,7 +10,7 @@ import android.database.Cursor;
 public abstract class DbAdapter extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "fztn";
-    private static final int DATABASE_VERSION = 58;
+    private static final int DATABASE_VERSION = 59;
 
     private final Context context;
     private DatabaseHelper dbHelper;
@@ -23,6 +23,20 @@ public abstract class DbAdapter extends SQLiteOpenHelper {
         dbHelper = new DatabaseHelper(context);
         this.db = dbHelper.getWritableDatabase();
     }
+    public static final String TABLE_ONERILEN_VIDEOLAR = "OnerilenVideolar";
+    public static final String COLUMN_USER_ID = "userId";
+    public static final String COLUMN_VIDEO_URL = "videoUrl";
+
+    public long insertRecommendedVideo(String userId, String videoUrl) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("user_id", userId);
+        values.put("video_url", videoUrl);
+        long result = db.insert("ONERILEN_VIDEO", null, values);
+        db.close();
+        return result;
+    }
+
 
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
@@ -57,6 +71,10 @@ public abstract class DbAdapter extends SQLiteOpenHelper {
                         "agri_derece TEXT," +
                         "agri_sekli TEXT," +
                         "agri_suresi TEXT);");
+                db.execSQL("CREATE TABLE IF NOT EXISTS ONERILEN_VIDEO(" +
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "user_id TEXT," +
+                        "video_url TEXT);");
 
 
 
