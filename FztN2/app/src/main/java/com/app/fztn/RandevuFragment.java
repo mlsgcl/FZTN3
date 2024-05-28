@@ -1,87 +1,25 @@
 package com.app.fztn;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.app.Dialog;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.LinearLayout;
-import android.widget.NumberPicker;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.NumberPicker;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -89,6 +27,10 @@ public class RandevuFragment extends Fragment implements CalendarAdapter.OnItemL
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private Calendar selectedDate;
+
+    private DbAdapter dbAdapter;
+    private String selectedDateString;
+    private String selectedTimeString;
 
     @Nullable
     @Override
@@ -98,6 +40,17 @@ public class RandevuFragment extends Fragment implements CalendarAdapter.OnItemL
         selectedDate = Calendar.getInstance();
         setMonthView();
 
+        dbAdapter = new DbAdapter(getContext()) {
+            @Override
+            public void onCreate(SQLiteDatabase sqLiteDatabase) {
+
+            }
+
+            @Override
+            public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+
+            }
+        };
 
         Button previousButton2 = view.findViewById(R.id.previous_button2);
         previousButton2.setOnClickListener(new View.OnClickListener() {
@@ -115,9 +68,7 @@ public class RandevuFragment extends Fragment implements CalendarAdapter.OnItemL
             }
         });
 
-
         return view;
-
     }
 
     private void initWidgets(View view) {
@@ -142,7 +93,7 @@ public class RandevuFragment extends Fragment implements CalendarAdapter.OnItemL
         int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        int startDayOfWeek = (dayOfWeek - calendar.getFirstDayOfWeek() + 7) % 7; // Ayın ilk gününe göre başlangıç günü
+        int startDayOfWeek = (dayOfWeek - calendar.getFirstDayOfWeek() + 7) % 7;
 
         for (int i = 1; i <= 42; i++) {
             if (i <= startDayOfWeek || i > daysInMonth + startDayOfWeek) {
@@ -154,12 +105,10 @@ public class RandevuFragment extends Fragment implements CalendarAdapter.OnItemL
         return daysInMonthArray;
     }
 
-
     private String monthYearFromDate(Calendar date) {
         SimpleDateFormat formatter = new SimpleDateFormat("MMMM yyyy", new Locale("tr"));
         return formatter.format(date.getTime());
     }
-
 
     public void previousMonthAction(View view) {
         selectedDate.add(Calendar.MONTH, -1);
@@ -174,8 +123,53 @@ public class RandevuFragment extends Fragment implements CalendarAdapter.OnItemL
     @Override
     public void onItemClick(int position, String dayText) {
         if (!dayText.equals("")) {
-            String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
-            Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+            selectedDateString = dayText + " " + monthYearFromDate(selectedDate);
+            showTimePickerDialog();
+        }
+    }
+
+    private void showTimePickerDialog() {
+        Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.dialog);
+
+        TextView textViewTitle = dialog.findViewById(R.id.textViewTitle);
+        textViewTitle.setText(selectedDateString);
+
+        RecyclerView recyclerViewTimes = dialog.findViewById(R.id.recyclerViewTimes);
+        recyclerViewTimes.setLayoutManager(new GridLayoutManager(getContext(), 4));
+
+        ArrayList<String> timeList = new ArrayList<>();
+        for (int hour = 9; hour <= 16; hour++) {
+            timeList.add(String.format("%02d:00", hour));
+        }
+
+        TimeAdapter adapter = new TimeAdapter(timeList, time -> {
+            selectedTimeString = time;
+            Toast.makeText(getContext(), "Seçilen Saat: " + time, Toast.LENGTH_SHORT).show();
+        });
+        recyclerViewTimes.setAdapter(adapter);
+
+        Button buttonConfirm = dialog.findViewById(R.id.buttonConfirm);
+        buttonConfirm.setOnClickListener(v -> {
+            if (selectedTimeString != null) {
+                saveAppointment(selectedDateString, selectedTimeString);
+                dialog.dismiss();
+            } else {
+                Toast.makeText(getContext(), "Lütfen bir saat seçiniz.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void saveAppointment(String date, String time) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        long result = dbAdapter.insertRandevu(userId, date, time);
+        if (result != -1) {
+            Toast.makeText(getContext(), "Randevu başarıyla kaydedildi.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Randevu kaydedilirken bir hata oluştu.", Toast.LENGTH_SHORT).show();
         }
     }
 }

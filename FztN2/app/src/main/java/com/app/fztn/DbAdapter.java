@@ -82,6 +82,29 @@ public abstract class DbAdapter extends SQLiteOpenHelper {
         return this;
     }
 
+    public long insertRandevu(String userId, String randevuTarih, String randevuSaat) {
+        ContentValues values = new ContentValues();
+        values.put("user_id", userId);
+        values.put("randevu_tarih", randevuTarih);
+        values.put("randevu_saat", randevuSaat);
+
+        SQLiteDatabase db = null;
+        long result = -1;
+
+        try {
+            db = this.getWritableDatabase();
+            result = db.insert("RANDEVU", null, values);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
+        }
+
+        return result;
+    }
+
     public boolean isHourOccupied(String selectedDate, String selectedTime) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
