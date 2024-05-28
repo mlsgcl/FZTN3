@@ -101,7 +101,7 @@ public class NeyimVarActivity extends AppCompatActivity {
             }
         } else {
             // Hata oluştu
-            Toast.makeText(this, "Bilgiler eklenirken bir hata oluştu", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Bilgiler eklenirken bir hata oluştu", Toast.LENGTH_SHORT).show();
         }
     }
 
