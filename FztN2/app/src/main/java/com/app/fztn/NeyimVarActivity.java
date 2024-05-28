@@ -77,7 +77,7 @@ public class NeyimVarActivity extends AppCompatActivity {
         String agriSekli = spinnerAgrıSekli.getSelectedItem().toString();
         String agriSuresi = spinnerAgrıSüresi.getSelectedItem().toString();
 
-        // Veritabanına bilgileri ekle
+
         long result = dbAdapter.insertAgrilar(userId, agriBolgesi, semptomlar, agriDerece, agriSekli, agriSuresi);
         if (result != -1) {
             // Başarıyla eklendi
