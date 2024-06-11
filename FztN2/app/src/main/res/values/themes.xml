@@ -8,7 +8,7 @@
     <style name="Theme.FztN" parent="Base.Theme.FztN" />
 
     <!-- res/values/styles.xml -->
-s
+
     <style name="DatePickerTheme" parent="Theme.AppCompat.Light.Dialog">
 
         <item name="android:background">@color/colorAccent</item> <!-- Arka plan rengi (beyaz) -->
