@@ -11,7 +11,7 @@ import android.database.Cursor;
 public abstract class DbAdapter extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "fztn";
-    private static final int DATABASE_VERSION = 59;
+    private static final int DATABASE_VERSION =61 ;
 
     private final Context context;
     private DatabaseHelper dbHelper;
@@ -91,6 +91,7 @@ public abstract class DbAdapter extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS USER");
             db.execSQL("DROP TABLE IF EXISTS RANDEVU");
             db.execSQL("DROP TABLE IF EXISTS AGRILAR");
+            db.execSQL("DROP TABLE IF EXISTS  ONERILEN_VIDEO");
 
             onCreate(db);
         }

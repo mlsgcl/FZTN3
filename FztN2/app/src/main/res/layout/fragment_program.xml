@@ -65,12 +65,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <WebView
-            android:id="@+id/webViewVideoPlayer"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:visibility="gone" /> <!-- Varsayılan olarak gizli -->
+
 
     </LinearLayout>
 

@@ -2,7 +2,9 @@ package com.app.fztn;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +46,7 @@ public class ProgramFragment extends Fragment {
 
 
 
+
         LinearLayout linearLayout1 = view.findViewById(R.id.linearlayout1);
         WebView webViewVideoPlayer = view.findViewById(R.id.webViewVideoPlayer);
 
@@ -58,11 +61,13 @@ public class ProgramFragment extends Fragment {
         linearLayout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Kullanıcı ID'sini burada alabilirsiniz
+
                 String recommendedVideoUrl = dbAdapter.getRecommendedVideoUrl(userId);
-                // WebView'i görünür yap ve URL'yi yükle
-                webViewVideoPlayer.setVisibility(View.VISIBLE);
-                webViewVideoPlayer.loadUrl(recommendedVideoUrl);
+               Intent browserIntent=new Intent(Intent.ACTION_VIEW,Uri.parse(recommendedVideoUrl));
+               startActivity(browserIntent);
+
+
+
             }
         });
 
