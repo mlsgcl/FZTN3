@@ -67,7 +67,19 @@
 
 
 
+
     </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TextBilgi"
+        android:background="@drawable/backgroundcrop"
+        android:fontFamily="monospace"
+        android:padding="5dp"
+        android:text=""
+        android:textColor="#ff000000"
+        android:textSize="18dp"
+        android:textStyle="bold" />
 
     <ScrollView
         android:layout_width="match_parent"

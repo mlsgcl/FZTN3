@@ -11,7 +11,7 @@ import android.database.Cursor;
 public abstract class DbAdapter extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "fztn";
-    private static final int DATABASE_VERSION =61 ;
+    private static final int DATABASE_VERSION =65 ;
 
     private final Context context;
     private DatabaseHelper dbHelper;
@@ -28,15 +28,20 @@ public abstract class DbAdapter extends SQLiteOpenHelper {
     public static final String COLUMN_USER_ID = "userId";
     public static final String COLUMN_VIDEO_URL = "videoUrl";
 
-    public long insertRecommendedVideo(String userId, String videoUrl) {
+
+
+    public long insertRecommendedVideo(String userId, String recommendedVideoUrl, String textBilgi) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("user_id", userId);
-        values.put("video_url", videoUrl);
+        values.put("video_url", recommendedVideoUrl);
+        values.put("text_bilgi", textBilgi);
         long result = db.insert("ONERILEN_VIDEO", null, values);
         db.close();
         return result;
     }
+
+
 
 
 
@@ -75,6 +80,7 @@ public abstract class DbAdapter extends SQLiteOpenHelper {
                 db.execSQL("CREATE TABLE IF NOT EXISTS ONERILEN_VIDEO(" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "user_id TEXT," +
+                        "text_bilgi TEXT," +
                         "video_url TEXT);");
 
 
@@ -107,6 +113,17 @@ public abstract class DbAdapter extends SQLiteOpenHelper {
             cursor.close();
         }
         return url;
+    }
+    @SuppressLint("Range")
+    public String getRecommendedTextBilgi(String userId) {
+        String textBilgi = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT text_bilgi FROM ONERILEN_VIDEO WHERE user_id = ?", new String[]{userId});
+        if (cursor != null && cursor.moveToFirst()) {
+            textBilgi= cursor.getString(cursor.getColumnIndex("text_bilgi"));
+            cursor.close();
+        }
+        return textBilgi;
     }
 
 

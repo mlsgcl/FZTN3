@@ -80,7 +80,11 @@ public class NeyimVarActivity extends AppCompatActivity {
         long result = dbAdapter.insertAgrilar(userId, agriBolgesi, semptomlar, agriDerece, agriSekli, agriSuresi);
 
         // Önerilen video URL'sini belirleyin
+
+
         String recommendedVideoUrl = "";
+        String textBilgi = "";
+
 
         if (result != -1) {
             // Başarıyla eklendi
@@ -90,29 +94,77 @@ public class NeyimVarActivity extends AppCompatActivity {
             // Kullanıcı seçimlerine bağlı olarak URL'yi belirleyin
             if (agriBolgesi.equals("Omuz") && semptomlar.equals("uyuşma") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("Batıcı") && agriSuresi.equals("Kronik")) {
                 recommendedVideoUrl = "https://youtube.com/shorts/hTfMSrMHtq8?si=sC9sHPgvhwomPJMy";
+               textBilgi="Öneriler/n," +
+                       "/n"+
+                       "1-Ani hareketlerden kaçınılmalı"+
+                       "/n"+
+                       "2-Omuz zorlanmamalı"+
+                       "/n"+
+                       "3-Uzun süre hareketsiz kalınmamalı";
+
+
             } else if ((agriBolgesi.equals("Baş") || agriBolgesi.equals("Boyun")) && semptomlar.equals("güçsüzlük") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("iğneleyici") && agriSuresi.equals("Kronik")) {
                 recommendedVideoUrl = "https://youtube.com/shorts/vMvPXYiXvFU?si=VmysZEZNGZQCvwjG";
+                textBilgi="Öneriler/n," +
+                        "/n"+
+                        "1-Ani hareketlerden kaçınılmalı"+
+                        "/n"+
+                        "2-Omuz zorlanmamalı"+
+                        "/n"+
+                        "3-Uzun süre hareketsiz kalınmamalı";
+
             } else if (agriBolgesi.equals("Bel") && semptomlar.equals("güçsüzlük") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("Batıcı") && agriSuresi.equals("Kronik")) {
                 recommendedVideoUrl = "https://www.youtube.com/shorts/RgyrfYbYvxY";
+                textBilgi="Öneriler/n," +
+                        "/n"+
+                        "1-Ani hareketlerden kaçınılmalı"+
+                        "/n"+
+                        "2-Omuz zorlanmamalı"+
+                        "/n"+
+                        "3-Uzun süre hareketsiz kalınmamalı";
             } else if (agriBolgesi.equals("Bacak") && semptomlar.equals("uyuşma") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("yanıcı") && agriSuresi.equals("Kronik")) {
                 recommendedVideoUrl = "https://www.youtube.com/shorts/v7pZO4VpzJU";
+                textBilgi="Öneriler/n," +
+                        "/n"+
+                        "1-Ani hareketlerden kaçınılmalı"+
+                        "/n"+
+                        "2-Omuz zorlanmamalı"+
+                        "/n"+
+                        "3-Uzun süre hareketsiz kalınmamalı";
             } else if (agriBolgesi.equals("El") && semptomlar.equals("uyuşma") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("batıcı") && agriSuresi.equals("Kronik")) {
                 recommendedVideoUrl = "https://www.youtube.com/shorts/cyDYR05Rw3A";
+                textBilgi="Öneriler," +
+                        "/n"+
+                        "1-Ani hareketlerden kaçınılmalı"+
+                        "/n"+
+                        "2-Omuz zorlanmamalı"+
+                        "/n"+
+                        "3-Uzun süre hareketsiz kalınmamalı";
             }
 
             Log.d("", "URL: " + recommendedVideoUrl);
+            Log.d("", "Bilgi: " +textBilgi);
 
             }else {
                 // Hata oluştu
             }
 
-        long result2 = dbAdapter.insertRecommendedVideo(userId, recommendedVideoUrl);
+        long result2 = dbAdapter.insertRecommendedVideo(userId, recommendedVideoUrl, textBilgi);
+
+
         if (result2 != -1) {
             Log.d("", "URL: " + recommendedVideoUrl + " başarıyla veritabanına kaydedildi.");
         } else {
             Log.d("", "URL: " + recommendedVideoUrl + " veritabanına kaydedilirken bir hata oluştu.");
         }
+
+
+
+
+
+
         }
+
 
 
     @Override

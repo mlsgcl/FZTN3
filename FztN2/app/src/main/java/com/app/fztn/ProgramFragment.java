@@ -1,5 +1,6 @@
 package com.app.fztn;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -20,6 +21,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.w3c.dom.Text;
 
 
 public class ProgramFragment extends Fragment {
@@ -44,25 +46,24 @@ public class ProgramFragment extends Fragment {
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        String textBilgi = dbAdapter.getRecommendedTextBilgi(userId);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView textViewBilgi=view.findViewById(R.id.TextBilgi);
+        textViewBilgi.setText(textBilgi);
+
+
 
 
 
         LinearLayout linearLayout1 = view.findViewById(R.id.linearlayout1);
-        WebView webViewVideoPlayer = view.findViewById(R.id.webViewVideoPlayer);
 
-        // JavaScript'i etkinleştir
-        WebSettings webSettings = webViewVideoPlayer.getSettings();
-        webSettings.setJavaScriptEnabled(true);
 
-        // WebViewClient ve WebChromeClient ayarla
-        webViewVideoPlayer.setWebViewClient(new WebViewClient());
-        webViewVideoPlayer.setWebChromeClient(new WebChromeClient());
 
         linearLayout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 String recommendedVideoUrl = dbAdapter.getRecommendedVideoUrl(userId);
+
                Intent browserIntent=new Intent(Intent.ACTION_VIEW,Uri.parse(recommendedVideoUrl));
                startActivity(browserIntent);
 
