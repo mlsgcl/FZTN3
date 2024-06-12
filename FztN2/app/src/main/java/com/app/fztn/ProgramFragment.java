@@ -64,8 +64,8 @@ public class ProgramFragment extends Fragment {
 
                 String recommendedVideoUrl = dbAdapter.getRecommendedVideoUrl(userId);
 
-               Intent browserIntent=new Intent(Intent.ACTION_VIEW,Uri.parse(recommendedVideoUrl));
-               startActivity(browserIntent);
+                Intent browserIntent=new Intent(Intent.ACTION_VIEW,Uri.parse(recommendedVideoUrl));
+                startActivity(browserIntent);
 
 
 
@@ -76,6 +76,4 @@ public class ProgramFragment extends Fragment {
 
         return view;
     }}
-
-
 

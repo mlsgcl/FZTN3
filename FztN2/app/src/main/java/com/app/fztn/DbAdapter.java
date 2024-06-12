@@ -11,7 +11,7 @@ import android.database.Cursor;
 public abstract class DbAdapter extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "fztn";
-    private static final int DATABASE_VERSION =65 ;
+    private static final int DATABASE_VERSION =69 ;
 
     private final Context context;
     private DatabaseHelper dbHelper;
@@ -497,4 +497,3 @@ public abstract class DbAdapter extends SQLiteOpenHelper {
 
 
 }
-

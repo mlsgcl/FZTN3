@@ -94,60 +94,53 @@ public class NeyimVarActivity extends AppCompatActivity {
             // Kullanıcı seçimlerine bağlı olarak URL'yi belirleyin
             if (agriBolgesi.equals("Omuz") && semptomlar.equals("uyuşma") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("Batıcı") && agriSuresi.equals("Kronik")) {
                 recommendedVideoUrl = "https://youtube.com/shorts/hTfMSrMHtq8?si=sC9sHPgvhwomPJMy";
-               textBilgi="Öneriler/n," +
-                       "/n"+
-                       "1-Ani hareketlerden kaçınılmalı"+
-                       "/n"+
-                       "2-Omuz zorlanmamalı"+
-                       "/n"+
-                       "3-Uzun süre hareketsiz kalınmamalı";
+                textBilgi="Öneriler:\n" +
+                        "1. Ani hareketlerden kaçınılmalı.\n" +
+                        "2. Omuz zorlanmamalı.\n" +
+                        "3. Uzun süre hareketsiz kalınmamalı."
+
+                ;
 
 
             } else if ((agriBolgesi.equals("Baş") || agriBolgesi.equals("Boyun")) && semptomlar.equals("güçsüzlük") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("iğneleyici") && agriSuresi.equals("Kronik")) {
                 recommendedVideoUrl = "https://youtube.com/shorts/vMvPXYiXvFU?si=VmysZEZNGZQCvwjG";
-                textBilgi="Öneriler/n," +
-                        "/n"+
-                        "1-Ani hareketlerden kaçınılmalı"+
-                        "/n"+
-                        "2-Omuz zorlanmamalı"+
-                        "/n"+
-                        "3-Uzun süre hareketsiz kalınmamalı";
+                textBilgi="Öneriler: \n," +
+                        "1-Çeneyi zorlayacak sert ürünler yenmemeli \n"+
+                        "2-Hep aynı tarafla çiğnenmemeli \n"
+                ;
 
             } else if (agriBolgesi.equals("Bel") && semptomlar.equals("güçsüzlük") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("Batıcı") && agriSuresi.equals("Kronik")) {
                 recommendedVideoUrl = "https://www.youtube.com/shorts/RgyrfYbYvxY";
-                textBilgi="Öneriler/n," +
-                        "/n"+
-                        "1-Ani hareketlerden kaçınılmalı"+
-                        "/n"+
-                        "2-Omuz zorlanmamalı"+
-                        "/n"+
-                        "3-Uzun süre hareketsiz kalınmamalı";
+                textBilgi="Öneriler: \n," +
+                        "1-Ağır eşyalar kaldırılmamalı \n " +
+                        "2-Yerden eşya alırken belden değil dizden kırarak alınmalı \n "
+
+                ;
+
             } else if (agriBolgesi.equals("Bacak") && semptomlar.equals("uyuşma") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("yanıcı") && agriSuresi.equals("Kronik")) {
                 recommendedVideoUrl = "https://www.youtube.com/shorts/v7pZO4VpzJU";
-                textBilgi="Öneriler/n," +
-                        "/n"+
-                        "1-Ani hareketlerden kaçınılmalı"+
-                        "/n"+
-                        "2-Omuz zorlanmamalı"+
-                        "/n"+
-                        "3-Uzun süre hareketsiz kalınmamalı";
+                textBilgi="Öneriler: \n ," +
+                        "1-Merdiven çıkma, çömelme vs gibi dizi zorlayan hareketlerden kaçınılmalı \n " +
+                        "2-Dizi eklemini fazla oynatmadan çevre kasları kuvvetlendirecek hareketler yapılmalı \n " +
+                        "3-Egzersiz yapmadan önce ısınma hareketleri yapılmalı \n " +
+                        "4-Egzersiz sürecinde antrenman yoğunluğu asla aniden artırılmamalı, yoğunluk yavaşça artırılıp azaltılmalı \n "+
+                        "5-Giyilen ayakkabılar mutlaka yeterli desteği vermeli \n "
+                ;
             } else if (agriBolgesi.equals("El") && semptomlar.equals("uyuşma") && Integer.parseInt(agriDerece) >= 5 && agriSekli.equalsIgnoreCase("batıcı") && agriSuresi.equals("Kronik")) {
                 recommendedVideoUrl = "https://www.youtube.com/shorts/cyDYR05Rw3A";
-                textBilgi="Öneriler," +
-                        "/n"+
-                        "1-Ani hareketlerden kaçınılmalı"+
-                        "/n"+
-                        "2-Omuz zorlanmamalı"+
-                        "/n"+
-                        "3-Uzun süre hareketsiz kalınmamalı";
+                textBilgi="Öneriler: \n, " +
+                        "1-Rahatsızlık yaşanan el ya da kol üstüne yatılmamalı \n " +
+                        "2-Bez sıkma gibi bileği zorlayıcı hareketlerden kaçınılmalı \n "
+
+                ;
             }
 
             Log.d("", "URL: " + recommendedVideoUrl);
             Log.d("", "Bilgi: " +textBilgi);
 
-            }else {
-                // Hata oluştu
-            }
+        }else {
+            // Hata oluştu
+        }
 
         long result2 = dbAdapter.insertRecommendedVideo(userId, recommendedVideoUrl, textBilgi);
 
@@ -163,7 +156,7 @@ public class NeyimVarActivity extends AppCompatActivity {
 
 
 
-        }
+    }
 
 
 
